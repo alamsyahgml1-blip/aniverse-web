@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AniVerse — Portal Anime Indonesia</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #e8192c;
+    --gold: #f5c518;
+    --dark: #0a0a0f;
+    --darker: #05050a;
+    --card: #12121e;
+    --border: #1e1e32;
+    --text: #e8e8f0;
+    --muted: #7070a0;
+    --glow: rgba(232,25,44,0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--darker);
+    color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* === ANIMATED BACKGROUND === */
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(232,25,44,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,25,44,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridDrift 20s linear infinite;
+  }
+
+  @keyframes gridDrift {
+    0% { background-position: 0 0; }
+    100% { background-position: 60px 60px; }
+  }
+
+  .bg-glow {
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(232,25,44,0.12) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* === NAVBAR === */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    height: 70px;
+    background: rgba(5,5,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2rem;
+    letter-spacing: 3px;
+    color: var(--text);
+  }
+
+  .nav-logo span { color: var(--red); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--red); }
+
+  .nav-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    transition: border-color 0.2s;
+  }
+
+  .nav-search:focus-within { border-color: var(--red); }
+
+  .nav-search input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.9rem;
+    width: 160px;
+  }
+
+  .nav-search svg { color: var(--muted); }
+
+  /* === HERO === */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 100px 5% 60px;
+    gap: 4rem;
+    overflow: hidden;
+  }
+
+  .hero-content { flex: 1; max-width: 600px; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(232,25,44,0.12);
+    border: 1px solid rgba(232,25,44,0.3);
+    border-radius: 4px;
+    padding: 0.3rem 0.8rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: 4px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero h1 .line-red { color: var(--red); display: block; }
+  .hero h1 .line-gold {
+    color: var(--gold);
+    -webkit-text-stroke: 1px var(--gold);
+    display: block;
+  }
+
+  .hero p {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 0.85rem 2rem;
+    border-radius: 6px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px var(--glow);
+  }
+
+  .btn-primary:hover {
+    background: #ff2233;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px var(--glow);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 0.85rem 2rem;
+    border-radius: 6px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--red);
+    color: var(--red);
+    transform: translateY(-2px);
+  }
+
+  /* Hero Stats */
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 3rem;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .stat-item { text-align: center; }
+
+  .stat-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2.2rem;
+    color: var(--red);
+    letter-spacing: 2px;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Hero Visual */
+  .hero-visual {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 500px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-card-stack {
+    position: relative;
+    width: 280px;
+    height: 400px;
+  }
+
+  .anime-card-hero {
+    position: absolute;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--border);
+    transition: transform 0.4s ease;
+  }
+
+  .anime-card-hero:nth-child(1) {
+    width: 220px;
+    height: 310px;
+    top: 60px;
+    left: 50px;
+    z-index: 3;
+    border-color: var(--red);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px var(--glow);
+    animation: float1 4s ease-in-out infinite;
+  }
+
+  .anime-card-hero:nth-child(2) {
+    width: 190px;
+    height: 270px;
+    top: 20px;
+    left: 10px;
+    z-index: 2;
+    transform: rotate(-8deg);
+    animation: float2 5s ease-in-out infinite;
+  }
+
+  .anime-card-hero:nth-child(3) {
+    width: 190px;
+    height: 270px;
+    top: 30px;
+    left: 90px;
+    z-index: 1;
+    transform: rotate(7deg);
+    animation: float3 4.5s ease-in-out infinite;
+  }
+
+  @keyframes float1 {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(1deg); }
+  }
+  @keyframes float2 {
+    0%, 100% { transform: translateY(0px) rotate(-8deg); }
+    50% { transform: translateY(-8px) rotate(-10deg); }
+  }
+  @keyframes float3 {
+    0%, 100% { transform: translateY(0px) rotate(7deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+  }
+
+  .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    gap: 0.5rem;
+  }
+
+  .c1 { background: linear-gradient(160deg, #1a0a0f, #3d0a12); color: #e8192c; }
+  .c2 { background: linear-gradient(160deg, #0a0a1f, #0d1a3d); color: #5588ff; }
+  .c3 { background: linear-gradient(160deg, #0f1a0a, #1a3d0d); color: #55cc66; }
+
+  .card-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--red);
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 3px 7px;
+    border-radius: 3px;
+  }
+
+  /* === MARQUEE === */
+  .marquee-wrap {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: rgba(232,25,44,0.05);
+    padding: 0.6rem 0;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+
+  .marquee-item {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .marquee-item::after {
+    content: '◆';
+    color: var(--red);
+    font-size: 0.5rem;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* === SECTIONS === */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 5%;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: 3px;
+  }
+
+  .section-title span { color: var(--red); }
+
+  .section-line {
+    width: 60px;
+    height: 3px;
+    background: var(--red);
+    margin-top: 0.5rem;
+  }
+
+  .view-all {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--red);
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: gap 0.2s;
+  }
+
+  .view-all:hover { gap: 0.8rem; }
+
+  /* === ANIME GRID === */
+  .anime-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .anime-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .anime-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--red);
+    box-shadow: 0 12px 40px rgba(232,25,44,0.2);
+  }
+
+  .card-thumb {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+  }
+
+  .card-thumb-img {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    transition: transform 0.4s ease;
+  }
+
+  .anime-card:hover .card-thumb-img { transform: scale(1.05); }
+
+  .card-thumb-img span { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
+
+  .card-score {
+    position: absolute;
+    top: 8px; left: 8px;
+    background: rgba(0,0,0,0.8);
+    color: var(--gold);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 3px 7px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .card-type {
+    position: absolute;
+    top: 8px; right: 8px;
+    background: var(--red);
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    padding: 3px 6px;
+    border-radius: 3px;
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,10,15,0.9) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+  }
+
+  .anime-card:hover .card-overlay { opacity: 1; }
+
+  .overlay-btn {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    width: 100%;
+    text-transform: uppercase;
+  }
+
+  .card-info { padding: 0.8rem; }
+
+  .card-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-meta {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* === GENRE TAGS === */
+  .genre-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  .genre-tag {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.6rem 1.2rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text);
+  }
+
+  .genre-tag:hover {
+    border-color: var(--red);
+    color: var(--red);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(232,25,44,0.15);
+  }
+
+  /* === TOP RANKED === */
+  .top-list { display: flex; flex-direction: column; gap: 1rem; }
+
+  .top-item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .top-item:hover {
+    border-color: var(--red);
+    transform: translateX(6px);
+    box-shadow: -4px 0 0 var(--red);
+  }
+
+  .top-rank {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2rem;
+    color: var(--border);
+    min-width: 40px;
+    transition: color 0.2s;
+  }
+
+  .top-item:nth-child(1) .top-rank { color: var(--gold); }
+  .top-item:nth-child(2) .top-rank { color: #c0c0c0; }
+  .top-item:nth-child(3) .top-rank { color: #cd7f32; }
+
+  .top-thumb {
+    width: 56px;
+    height: 76px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .top-thumb-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+  }
+
+  .top-info { flex: 1; min-width: 0; }
+
+  .top-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .top-detail { font-size: 0.8rem; color: var(--muted); }
+
+  .top-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+  }
+
+  .top-score-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.5rem;
+    color: var(--gold);
+  }
+
+  .top-score-star { font-size: 0.7rem; color: var(--gold); }
+
+  /* === NEWSLETTER === */
+  .newsletter-section {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    padding: 4rem 5%;
+  }
+
+  .newsletter-section h2 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: 3px;
+    margin-bottom: 0.8rem;
+  }
+
+  .newsletter-section p {
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 0.8rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    background: var(--darker);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .newsletter-input:focus { border-color: var(--red); }
+
+  /* === FOOTER === */
+  footer {
+    position: relative;
+    z-index: 1;
+    background: var(--darker);
+    border-top: 1px solid var(--border);
+    padding: 3rem 5% 2rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand { max-width: 280px; }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2rem;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+  }
+
+  .footer-logo span { color: var(--red); }
+
+  .footer-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .social-links { display: flex; gap: 0.8rem; }
+
+  .social-btn {
+    width: 38px; height: 38px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: var(--muted);
+  }
+
+  .social-btn:hover {
+    border-color: var(--red);
+    color: var(--red);
+    transform: translateY(-2px);
+  }
+
+  .footer-col h4 {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .footer-col ul a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+
+  .footer-col ul a:hover { color: var(--red); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-bottom p {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .footer-bottom span { color: var(--red); }
+
+  /* === ANIMATIONS === */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === MOBILE === */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero { flex-direction: column; padding-top: 90px; }
+    .hero-visual { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .newsletter-form { flex-direction: column; }
+  }
+
+  /* === SCROLLBAR === */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--darker); }
+  ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 3px; }
+
+  /* === MODAL / TOAST === */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--card);
+    border: 1px solid var(--red);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    z-index: 999;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast-icon { font-size: 1.2rem; }
+
+  /* Season filter */
+  .filter-row {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">ANI<span>VERSE</span></div>
+  <ul class="nav-links">
+    <li><a href="#trending">Trending</a></li>
+    <li><a href="#seasonal">Seasonal</a></li>
+    <li><a href="#top">Top Rated</a></li>
+    <li><a href="#genre">Genre</a></li>
+    <li><a href="#about">Tentang</a></li>
+  </ul>
+  <div class="nav-search">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <input type="text" placeholder="Cari anime...">
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">🎌 Portal Anime #1 Indonesia</div>
+    <h1>
+      <span>DUNIA</span>
+      <span class="line-red">ANIME</span>
+      <span class="line-gold">TANPA BATAS</span>
+    </h1>
+    <p>Temukan ribuan judul anime terbaik, baca review jujur, dan ikuti komunitas penggemar anime terbesar di Indonesia. Gratis selamanya.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="showToast('🎌 Selamat datang di AniVerse!')">Mulai Jelajah</button>
+      <button class="btn-outline" onclick="showToast('📋 Fitur watchlist segera hadir!')">My Watchlist</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">12K+</span>
+        <span class="stat-label">Judul Anime</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">850K</span>
+        <span class="stat-label">Pengguna</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">4.9★</span>
+        <span class="stat-label">Rating App</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-card-stack">
+      <div class="anime-card-hero">
+        <div class="card-img-placeholder c1">
+          <span>⚔️</span>
+          ATTACK ON<br>TITAN
+        </div>
+        <div class="card-badge">TOP #1</div>
+      </div>
+      <div class="anime-card-hero">
+        <div class="card-img-placeholder c2">
+          <span>🌸</span>
+          DEMON<br>SLAYER
+        </div>
+      </div>
+      <div class="anime-card-hero">
+        <div class="card-img-placeholder c3">
+          <span>🍃</span>
+          ONE PIECE
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Attack on Titan</span>
+    <span class="marquee-item">Demon Slayer</span>
+    <span class="marquee-item">Jujutsu Kaisen</span>
+    <span class="marquee-item">One Piece</span>
+    <span class="marquee-item">Naruto</span>
+    <span class="marquee-item">Dragon Ball Z</span>
+    <span class="marquee-item">Vinland Saga</span>
+    <span class="marquee-item">Bleach</span>
+    <span class="marquee-item">Hunter x Hunter</span>
+    <span class="marquee-item">Fullmetal Alchemist</span>
+    <span class="marquee-item">My Hero Academia</span>
+    <span class="marquee-item">Tokyo Revengers</span>
+    <!-- repeat for seamless -->
+    <span class="marquee-item">Attack on Titan</span>
+    <span class="marquee-item">Demon Slayer</span>
+    <span class="marquee-item">Jujutsu Kaisen</span>
+    <span class="marquee-item">One Piece</span>
+    <span class="marquee-item">Naruto</span>
+    <span class="marquee-item">Dragon Ball Z</span>
+    <span class="marquee-item">Vinland Saga</span>
+    <span class="marquee-item">Bleach</span>
+    <span class="marquee-item">Hunter x Hunter</span>
+    <span class="marquee-item">Fullmetal Alchemist</span>
+    <span class="marquee-item">My Hero Academia</span>
+    <span class="marquee-item">Tokyo Revengers</span>
+  </div>
+</div>
+
+<!-- TRENDING -->
+<section id="trending">
+  <div class="section-header">
+    <div>
+      <div class="section-title">🔥 SEDANG <span>TRENDING</span></div>
+      <div class="section-line"></div>
+    </div>
+    <a class="view-all" href="#">Lihat Semua →</a>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-btn active">Semua</button>
+    <button class="filter-btn" onclick="setFilter(this)">TV Series</button>
+    <button class="filter-btn" onclick="setFilter(this)">Movie</button>
+    <button class="filter-btn" onclick="setFilter(this)">OVA</button>
+    <button class="filter-btn" onclick="setFilter(this)">Ongoing</button>
+  </div>
+
+  <div class="anime-grid" id="trendingGrid"></div>
+</section>
+
+<!-- TOP RATED + GENRE -->
+<section style="display:grid; grid-template-columns: 1fr 1fr; gap: 4rem;" id="top">
+  <div>
+    <div class="section-header">
+      <div>
+        <div class="section-title">🏆 TOP <span>TERBAIK</span></div>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="top-list" id="topList"></div>
+  </div>
+
+  <div id="genre">
+    <div class="section-header">
+      <div>
+        <div class="section-title">🎭 <span>GENRE</span></div>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="genre-grid" id="genreGrid"></div>
+  </div>
+</section>
+
+<!-- SEASONAL -->
+<section id="seasonal">
+  <div class="section-header">
+    <div>
+      <div class="section-title">🌸 SEASONAL <span>2025</span></div>
+      <div class="section-line"></div>
+    </div>
+    <a class="view-all" href="#">Jadwal Lengkap →</a>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-btn active">Winter</button>
+    <button class="filter-btn" onclick="setFilter(this)">Spring</button>
+    <button class="filter-btn" onclick="setFilter(this)">Summer</button>
+    <button class="filter-btn" onclick="setFilter(this)">Fall</button>
+  </div>
+
+  <div class="anime-grid" id="seasonalGrid"></div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter-section">
+  <h2>JANGAN KETINGGALAN <span style="color:var(--red)">UPDATE</span></h2>
+  <p>Dapatkan notifikasi anime terbaru, review eksklusif, dan berita anime langsung di emailmu.</p>
+  <div class="newsletter-form">
+    <input class="newsletter-input" type="email" placeholder="email@kamu.com">
+    <button class="btn-primary" onclick="showToast('✅ Berhasil subscribe!')">Subscribe</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">ANI<span>VERSE</span></div>
+      <p class="footer-desc">Portal anime terlengkap untuk para otaku Indonesia. Temukan, tonton, dan diskusikan anime favoritmu bersama jutaan pengguna.</p>
+      <div class="social-links">
+        <a class="social-btn" href="#">𝕏</a>
+        <a class="social-btn" href="#">📘</a>
+        <a class="social-btn" href="#">📸</a>
+        <a class="social-btn" href="#">▶️</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigasi</h4>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Trending</a></li>
+        <li><a href="#">Seasonal</a></li>
+        <li><a href="#">Top Rated</a></li>
+        <li><a href="#">Schedule</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Genre</h4>
+      <ul>
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Romance</a></li>
+        <li><a href="#">Fantasy</a></li>
+        <li><a href="#">Horror</a></li>
+        <li><a href="#">Isekai</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Komunitas</h4>
+      <ul>
+        <li><a href="#">Forum</a></li>
+        <li><a href="#">Review</a></li>
+        <li><a href="#">Watchlist</a></li>
+        <li><a href="#">Tentang Kami</a></li>
+        <li><a href="#">Kontak</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 <span>AniVerse</span>. Dibuat dengan ❤️ untuk komunitas anime Indonesia.</p>
+    <p style="font-size:0.8rem; color:var(--muted);">Privacy Policy · Terms of Service</p>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span id="toastMsg">Berhasil!</span>
+</div>
+
+<script>
+// Data anime
+const trending = [
+  { title: "Attack on Titan", type: "TV", score: 9.1, eps: 87, icon: "⚔️", bg: "linear-gradient(160deg,#1a0a0f,#3d0a12)", color: "#e8192c" },
+  { title: "Jujutsu Kaisen", type: "TV", score: 8.9, eps: 47, icon: "💜", bg: "linear-gradient(160deg,#0a0a1f,#1a0a3d)", color: "#8855ff" },
+  { title: "Demon Slayer", type: "TV", score: 8.7, eps: 44, icon: "🌸", bg: "linear-gradient(160deg,#1a0a0a,#3d2010)", color: "#ff8833" },
+  { title: "Vinland Saga", type: "TV", score: 8.8, eps: 48, icon: "🗡️", bg: "linear-gradient(160deg,#0a1015,#102030)", color: "#5599dd" },
+  { title: "Spy x Family", type: "TV", score: 8.5, eps: 37, icon: "🕵️", bg: "linear-gradient(160deg,#0a150a,#103010)", color: "#55cc66" },
+  { title: "Chainsaw Man", type: "TV", score: 8.6, eps: 12, icon: "🪚", bg: "linear-gradient(160deg,#150a0a,#301010)", color: "#cc2222" },
+  { title: "Bocchi the Rock", type: "TV", score: 9.0, eps: 12, icon: "🎸", bg: "linear-gradient(160deg,#150a15,#300020)", color: "#ff55cc" },
+  { title: "Oshi no Ko", type: "TV", score: 8.8, eps: 11, icon: "⭐", bg: "linear-gradient(160deg,#0a0a15,#10103d)", color: "#aabbff" },
+];
+
+const topRated = [
+  { title: "Fullmetal Alchemist: Brotherhood", detail: "TV · 64 eps · 2009", score: "9.1", icon: "⚗️", bg: "#1a1000" },
+  { title: "Steins;Gate", detail: "TV · 24 eps · 2011", score: "9.0", icon: "⏳", bg: "#001a1a" },
+  { title: "Hunter x Hunter (2011)", detail: "TV · 148 eps · 2011", score: "9.0", icon: "🃏", bg: "#0a1a0a" },
+  { title: "Gintama°", detail: "TV · 51 eps · 2015", score: "8.9", icon: "🎭", bg: "#1a1a00" },
+  { title: "Clannad: After Story", detail: "TV · 24 eps · 2008", score: "8.9", icon: "🌸", bg: "#1a001a" },
+];
+
+const genres = [
+  {name:"Action", icon:"⚔️"},{name:"Romance", icon:"💕"},{name:"Fantasy", icon:"🐉"},
+  {name:"Horror", icon:"👻"},{name:"Comedy", icon:"😂"},{name:"Isekai", icon:"🌀"},
+  {name:"Sports", icon:"🏆"},{name:"Slice of Life", icon:"☕"},{name:"Mecha", icon:"🤖"},
+  {name:"Mystery", icon:"🔍"},{name:"Psychological", icon:"🧠"},{name:"Shounen", icon:"💥"},
+];
+
+const seasonal = [
+  { title: "Solo Leveling S2", type: "TV", score: 8.8, eps: 13, icon: "👁️", bg: "linear-gradient(160deg,#0a0a1a,#0a1a3a)", color: "#4488ff" },
+  { title: "DAN DA DAN", type: "TV", score: 8.7, eps: 12, icon: "👽", bg: "linear-gradient(160deg,#1a0a1a,#3a0a3a)", color: "#cc55ff" },
+  { title: "Blue Box", type: "TV", score: 8.3, eps: 25, icon: "🏸", bg: "linear-gradient(160deg,#0a1520,#0a2040)", color: "#55aaff" },
+  { title: "Wind Breaker", type: "TV", score: 8.1, eps: 13, icon: "🌬️", bg: "linear-gradient(160deg,#0a0a0a,#1a2030)", color: "#aaccee" },
+  { title: "Kakuriyo", type: "TV", score: 7.9, eps: 26, icon: "🍜", bg: "linear-gradient(160deg,#1a0a05,#301500)", color: "#ff9944" },
+  { title: "Fire Force S3", type: "TV", score: 8.4, eps: 24, icon: "🔥", bg: "linear-gradient(160deg,#1a0500,#3a0a00)", color: "#ff6622" },
+  { title: "Mushoku Tensei S2", type: "TV", score: 8.7, eps: 25, icon: "📚", bg: "linear-gradient(160deg,#0a100a,#102510)", color: "#66bb55" },
+  { title: "Frieren", type: "TV", score: 9.2, eps: 28, icon: "🧝", bg: "linear-gradient(160deg,#0a0a15,#101528)", color: "#8899cc" },
+];
+
+function buildCard(anime, delay=0) {
+  return `
+    <div class="anime-card" style="animation-delay:${delay}ms" onclick="showToast('📌 ${anime.title} ditambahkan ke watchlist!')">
+      <div class="card-thumb">
+        <div class="card-thumb-img" style="background:${anime.bg};color:${anime.color}">
+          <span>${anime.icon}</span>
+          ${anime.title.split(' ').slice(0,2).join(' ')}
+        </div>
+        <div class="card-score">★ ${anime.score}</div>
+        <div class="card-type">${anime.type}</div>
+        <div class="card-overlay">
+          <button class="overlay-btn">+ Watchlist</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">${anime.title}</div>
+        <div class="card-meta">${anime.eps} eps</div>
+      </div>
+    </div>`;
+}
+
+document.getElementById('trendingGrid').innerHTML = trending.map((a,i) => buildCard(a, i*60)).join('');
+document.getElementById('seasonalGrid').innerHTML = seasonal.map((a,i) => buildCard(a, i*60)).join('');
+
+document.getElementById('topList').innerHTML = topRated.map((a,i) => `
+  <div class="top-item" onclick="showToast('📌 ${a.title} ditambahkan ke watchlist!')">
+    <div class="top-rank">${String(i+1).padStart(2,'0')}</div>
+    <div class="top-thumb">
+      <div class="top-thumb-inner" style="background:${a.bg}">${a.icon}</div>
+    </div>
+    <div class="top-info">
+      <div class="top-title">${a.title}</div>
+      <div class="top-detail">${a.detail}</div>
+    </div>
+    <div class="top-score">
+      <span class="top-score-num">${a.score}</span>
+      <span class="top-score-star">★★★★★</span>
+    </div>
+  </div>`).join('');
+
+document.getElementById('genreGrid').innerHTML = genres.map(g => `
+  <div class="genre-tag" onclick="showToast('🎭 Genre ${g.name} dipilih!')">
+    ${g.icon} ${g.name}
+  </div>`).join('');
+
+function setFilter(btn) {
+  btn.closest('.filter-row').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  showToast('🔍 Filter diterapkan: ' + btn.textContent);
+}
+
+let toastTimer;
+function showToast(msg) {
+  clearTimeout(toastTimer);
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.add('show');
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
